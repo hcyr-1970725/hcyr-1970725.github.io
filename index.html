@@ -1,0 +1,85 @@
+  <!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>極速點擊</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background: #222;
+            color: #fff;
+            padding-top: 50px;
+        }
+        #box {
+            width: 120px;
+            height: 120px;
+            background: #ff4757;
+            border-radius: 50%;
+            margin: 40px auto;
+            cursor: pointer;
+            display: none;
+            line-height: 120px;
+            font-size: 50px;
+            user-select: none;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>⚡ 極速點擊王 ⚡</h1>
+    <p>分數：<span id="score">0</span> | 剩餘時間：<span id="time">10</span> 秒</p>
+    <button id="startBtn">開始遊戲</button>
+    <div id="box">🎯</div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const box = document.getElementById('box');
+        const scoreReset = document.getElementById('score');
+        const timeReset = document.getElementById('time');
+
+        let score = 0, time = 10, timer;
+
+        // 隨機移動目標位置
+        function moveBox() {
+            box.style.display = 'block';
+            box.style.marginTop = Math.random() * 200 + 'px';
+            box.style.marginLeft = Math.random() * 60 + '%';
+        }
+
+        // 開始遊戲
+        startBtn.addEventListener('click', () => {
+            score = 0; time = 10;
+            scoreReset.innerText = score;
+            timeReset.innerText = time;
+            startBtn.disabled = true;
+            moveBox();
+
+            timer = setInterval(() => {
+                time--;
+                timeReset.innerText = time;
+                if (time <= 0) {
+                    clearInterval(timer);
+                    box.style.display = 'none';
+                    startBtn.disabled = false;
+                    alert(`遊戲結束！你點了 ${score} 次！`);
+                }
+            }, 1000);
+        });
+
+        // 點擊目標得分並移動
+        box.addEventListener('click', () => {
+            score++;
+            scoreReset.innerText = score;
+            moveBox();
+        });
+    </script>
+
+</body>
+</html>
